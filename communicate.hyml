@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+#沟通的艺术
+
+ 掐指一算，十周的斯沃大讲堂已经过去一半，然而前面五周周周除了技术栈还是技术栈。正在疑惑之际等来了这周的主题：沟通的艺术。抛开`艺术`这么高逼格的词不谈，`沟通`这个词在我们这节课来说其实就是应用在两方面的技巧——生活&工作。
+ 
+ 前半节所谓如何在工作中沟通的话题，其实是在教我们如何`敏捷`。毕竟我们公司也是传说中的`敏捷殿堂`（已经开始装逼了），作为工作流程和方法的介绍，`敏捷`是必不可少的。其实要谈到如何敏捷的工作，我也是很蒙圈的。早有听说敏捷软件开发大法好，好在哪里，怎么做才算好，开始我是一概不知道。直到在斯沃学院完完整整的做了人生中的第一个敏捷软件开发的项目，发现其实敏捷软件开发的最强之处恰恰就是在沟通二字之上。用特定的方式方法，再配以各方面的工具，使开发者之间的沟通、开发者与客户之间的沟通效率爆表，从而使开发效率同时爆表。这其中的方法譬如[站会](https://zh.wikipedia.org/wiki/%E7%AB%99%E4%BC%9A)、[Retro](https://en.wikipedia.org/wiki/Retrospective#Software_development)、[结对编程](https://zh.wikipedia.org/wiki/%E7%BB%93%E5%AF%B9%E7%BC%96%E7%A8%8B)都能在各个场景各个方面帮助团队交流沟通。而在工具方面，[Trello](https://trello.com/)、[Teambition](https://www.teambition.com/)、[BearyChat](https://bearychat.com/)等团队交流和工作计划软件对效率的提升也起着很大的作用。这些工具和方法也需要我们在实践中发现他们的牛逼之处。
+ 
+ 而后半程所讲的关于生活中沟通一大重要技巧——`FeedBack`。这的确是一个在任何地方都用得上的一个升华自我的技巧（装逼*2）。首先我们要明白向别人提出FeedBack的目的是为了帮助别人更加清楚地认识他（她）自己，所以一定要从事实出发，并充分的尊重对方，具体还有很多系统的要求如下（申彤MM整理出来的FeedBack的技巧）：
+ 
+ - Against Behavior
+ - Consent
+ - Direct
+ - Frequency
+ - Immediate
+ - Positive
+ - Safety
+ - Sincere
+ - Specific 
+ 
+我也是在得到了许多人的FeedBack后发现了以前自己并没有意识到的很多问题，当然，也让我发现了一些自己的闪光点，让我知道我该把什么保持并继续发扬下去。
+ 
+ 总之在这一节课上干货还是有很多的，相信其他刚刚接触敏捷的同学们也收获了不少比技术还重要的沟通上的新姿势~最后扯一句，申彤MM这种能够保持笑容一整天的女生最赞了╮(╯▽╰)╭
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "communicate.hyml";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
