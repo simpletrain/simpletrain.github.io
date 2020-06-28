@@ -1,2 +1,1 @@
-# simpletrain.github.io
-Personal blog.
+# Page for cxy and yb
